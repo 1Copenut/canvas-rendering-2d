@@ -4,7 +4,7 @@
   "description": "A simple exploration of keyboard navigation in canvas",
   "main": "index.js",
   "scripts": {
-    "start": "http-server ./public -d false"
+    "start": "http-server ./public -c -1 -d false"
   },
   "keywords": [
     "canvas",
