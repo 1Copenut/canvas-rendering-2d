@@ -1,4 +1,4 @@
-import { BAR_HEIGHT } from "../constants/index.js";
+import { BAR_HEIGHT } from "../../constants/index.js";
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -40,8 +40,6 @@ function redraw() {
     bar.x_end,
     bar.y_end
   ));
-  // drawBar(button1, 20, 20);
-  // drawBar(button2, 20, 80);
 }
 
 function handleClick(e) {
@@ -52,21 +50,6 @@ function handleClick(e) {
   console.log(x);
   console.log(y);
 
-  // Focus button1, if appropriate
-  // drawBar(button1, 20, 20);
-  // if (ctx.isPointInPath(x, y)) {
-  //   button1.focus();
-  //   console.log(ctx);
-  // }
-
-  // Focus button2, if appropriate
-  // drawBar(button2, 20, 80);
-  // if (ctx.isPointInPath(x, y)) {
-  //   button2.focus();
-  //   console.log(ctx);
-  // }
-  
-  // barDataArray.map(button => drawBar(button.point, button.x, button.y));
   barDataArray.map(bar => {
     drawBar(bar.elem, bar.x_start, bar.y_start, bar.x_end, bar.y_end);
     if((x >= bar.x_start && x <= bar.x_end) && (y >= bar.y_start && y <= bar.y_end)) {
@@ -87,11 +70,11 @@ function drawBar(el, x_start, y_start, x_end, y_end) {
   ctx.fillRect(x_start, y_start, x_end, height);
 
   // Button text
-  ctx.font = '15px sans-serif';
-  ctx.textAlign = 'center';
+  ctx.font = '16px Helvetica, Arial, sans-serif';
+  ctx.textAlign = 'left';
   ctx.textBaseline = 'middle';
   ctx.fillStyle = active ? 'white' : 'black';
-  ctx.fillText(el.textContent, x_start + x_end / 2, y_start + height / 2);
+  ctx.fillText(el.textContent, x_start + 15, y_start + height / 2);
 
   // Define clickable area
   ctx.beginPath();

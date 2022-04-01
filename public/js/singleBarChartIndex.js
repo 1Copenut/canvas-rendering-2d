@@ -1,4 +1,4 @@
-import { redraw, handleClick } from './modules/canvas.mjs'
+import { redraw, handleClick } from './modules/barCharts/singleBarChart.mjs'
 
 document.addEventListener('focus', redraw, true);
 document.addEventListener('blur', redraw, true);
