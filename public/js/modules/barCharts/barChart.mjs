@@ -1,17 +1,18 @@
 import { BAR_CHART_CLASS, BAR_CHART_HEIGHT } from "../../constants/index.js";
 import { BAR_CHART_DATA } from "../../data/barChartData.js";
+import rovingTabindex from "../../helpers/rovingTabindex.mjs";
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];
-let selectedBar = 0;
+// let selectedBar = 0;
 
 // Add event listeners
 document.addEventListener('focus', initBarChart, true);
 document.addEventListener('blur', initBarChart, true);
 canvas.addEventListener('click', handleClick, false);
-canvas.addEventListener('keydown', handleKeyDown, false);
+canvas.addEventListener('keydown', e => rovingTabindex(e, bars), false);
 
 function initBarChart() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
