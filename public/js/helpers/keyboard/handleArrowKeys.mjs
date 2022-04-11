@@ -1,6 +1,6 @@
 let selectedBar = 0;
 
-function rovingTabindex(e, barsArr, context) {
+function handleArrowKeys(e, barsArr, context) {
   switch(e.key) {
     case 'ArrowUp':
     case 'ArrowLeft': {
@@ -40,4 +40,4 @@ function rovingTabindex(e, barsArr, context) {
   }
 }
 
-export default rovingTabindex;
+export default handleArrowKeys;

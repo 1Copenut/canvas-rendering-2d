@@ -1,92 +1,59 @@
 import { BAR_CHART_CLASS, BAR_CHART_HEIGHT } from "../../constants/index.js";
 import { STACKED_BAR_CHART_DATA } from "../../data/barChartData.js";
 
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+import handleArrowKeys from "../../helpers/keyboard/handleArrowKeys.mjs";
 
 const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];
-let selectedBar = 0;
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
 
 // Add event listeners
 document.addEventListener('focus', initBarChart, true);
 document.addEventListener('blur', initBarChart, true);
 canvas.addEventListener('click', handleClick, false);
-canvas.addEventListener('keydown', handleKeyDown, false);
+// canvas.addEventListener('keydown', e => handleArrowKeys(e, bars), false);
 
 function initBarChart() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  STACKED_BAR_CHART_DATA.map((bar, i) => drawStackedBar(
-    bars[i],
-    bar.stackedCoordinates
-  ));
-}
+  STACKED_BAR_CHART_DATA.map((bar, i) => {
+    const segments = [...bars[i].children];
+    const coordinates = bar.stackedCoordinates;
 
-function handleKeyDown(e) {
-  switch(e.key) {
-    case 'ArrowUp':
-    case 'ArrowLeft': {
-      bars[selectedBar].removeAttribute('tabindex');
-
-      if (selectedBar === 0) {
-        selectedBar = bars.length - 1;
-        bars[selectedBar].setAttribute('tabindex', '0');
-        bars[selectedBar].focus();
-      } else {
-        selectedBar = selectedBar - 1;
-        bars[selectedBar].setAttribute('tabindex', '0');
-        bars[selectedBar].focus();
-      }
-      break;
-    }
-
-    case 'ArrowDown':
-    case 'ArrowRight': {
-      bars[selectedBar].removeAttribute('tabindex');
-
-      if (selectedBar === bars.length - 1) {
-        selectedBar = 0;
-        bars[selectedBar].setAttribute('tabindex', '0');
-        bars[selectedBar].focus();
-      } else {
-        selectedBar = selectedBar + 1;
-        bars[selectedBar].setAttribute('tabindex', '0');
-        bars[selectedBar].focus();
-      }
-      break;
-    }
-
-    default: {
-      break;
-    }
-  }
+    segments.map((segment, i) => {
+      drawStackedBar(segment, coordinates[i]);
+    });
+  });
 }
 
 function handleClick(e) {
   // Calculate click coordinates
   const x = e.clientX - canvas.offsetLeft;
   const y = e.clientY - canvas.offsetTop;
+  
+  // Find the current segment with tabindex and remove it
+  const currentTabIndex = document.querySelector('span[tabindex="0"]');
+  if (currentTabIndex) currentTabIndex.removeAttribute('tabindex');
 
-  console.log(x);
-  console.log(y);
+  STACKED_BAR_CHART_DATA.map((bar, i) => {
+    const segments = [...bars[i].children];
+    const coordinates = bar.stackedCoordinates;
 
-  BAR_CHART_DATA.map((bar, i) => {
-    drawBar(
-      bars[i],
-      bar.x_start,
-      bar.y_start,
-      bar.x_end,
-      bar.y_end
-    );
+    segments.map((segment, i) => {
+      const {
+        elemId,
+        x_start,
+        x_end,
+        y_start,
+        y_end,
+        y_offset
+      } = coordinates[i];
+      const activeBar = document.activeElement === 'body' ? undefined : document.getElementById(elemId);
 
-    bars[i].removeAttribute('tabindex');
-
-    if (
-      (x >= bar.x_start && x <= bar.x_end) &&
-      (y >= bar.y_start && y <= bar.y_end)
-    ) {
-      bars[i].setAttribute('tabindex', '0');
-      bars[i].focus();
-    }
+      if ((x >= x_start && x <= x_end) && (y >= y_start - y_offset && y <= y_end - y_offset)) {
+        activeBar.setAttribute('tabindex', '0');
+        activeBar.focus();
+      }
+    });
   });
 }
 
@@ -94,27 +61,42 @@ function drawStackedBar(el, stackedCoordinates) {
   const active = document.activeElement === el;
   const height = BAR_CHART_HEIGHT;
 
-  let secondLevelKey;
+  const {
+    elemId,
+    x_start,
+    x_end,
+    y_start,
+    y_end
+  } = stackedCoordinates;
 
-  const boxesLength = Object.keys(stackedCoordinates).length;
+  // Stacked bar segments
+  ctx.fillStyle = active ? 'rebeccapurple' : 'lightgray';
+  ctx.fillRect(
+    x_start,
+    y_start,
+    x_end - x_start,
+    y_end - y_start
+  );
 
-  for (const topLevelKey in stackedCoordinates) {
-    secondLevelKey = stackedCoordinates[topLevelKey];
-    const values = Object.values(secondLevelKey);
-    ctx.fillStyle = active ? 'rebeccapurple' : 'lightgray';
-    ctx.fillRect(...values);
-  }
-
-  // Button text
+  // Segment text value
   ctx.font = '16px Helvetica, Arial, sans-serif';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'middle';
-  // ctx.fillStyle = active ? 'white' : 'black';
-  // ctx.fillText(el.textContent, x_start + 15, y_start + height / 2);
+  ctx.fillStyle = active ? 'white' : 'black';
+  ctx.fillText(
+    el.textContent,
+    x_start + 15,
+    y_start + height / 2
+  );
 
   // Define clickable area
   ctx.beginPath();
-  ctx.rect(x_start, y_start, x_end, height);
+  ctx.rect(
+    x_start,
+    y_start,
+    x_end - x_start,
+    height
+  );
 
   // Draw focus ring, if appropriate
   ctx.drawFocusIfNeeded(el);
