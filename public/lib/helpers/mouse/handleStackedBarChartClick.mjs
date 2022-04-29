@@ -18,8 +18,6 @@ function handleStackedBarChartClick(e, barsArr, barData) {
         y_end,
       } = coordinates[i];
 
-      const activeBar = document.activeElement === 'body' ? undefined : document.getElementById(elemId);
-
       if ((x >= x_start && x <= x_end) && (y >= y_start && y <= y_end)) {
         // Find the current segment with tabindex and remove it
         const currentTabIndex = document.querySelector('canvas [tabindex="0"]');
