@@ -1,6 +1,7 @@
 import { BAR_CHART_CLASS, BAR_CHART_HEIGHT } from "../../lib/constants/index.js";
 import { STACKED_BAR_CHART_DATA } from "./data.js";
 
+import handleStackedBarChartClick from "../../lib/helpers/mouse/handleStackedBarChartClick.mjs";
 import handleArrowKeys from "../../lib/helpers/keyboard/handleArrowKeys.mjs";
 
 const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];
@@ -10,7 +11,7 @@ const ctx = canvas.getContext('2d');
 // Add event listeners
 document.addEventListener('focus', initBarChart, true);
 document.addEventListener('blur', initBarChart, true);
-canvas.addEventListener('click', handleClick, false);
+canvas.addEventListener('click', e => handleStackedBarChartClick(e, bars, STACKED_BAR_CHART_DATA), false);
 // canvas.addEventListener('keydown', e => handleArrowKeys(e, bars), false);
 
 function initBarChart() {
@@ -21,38 +22,6 @@ function initBarChart() {
 
     segments.map((segment, i) => {
       drawStackedBar(segment, coordinates[i]);
-    });
-  });
-}
-
-function handleClick(e) {
-  // Calculate click coordinates
-  const x = e.clientX - canvas.offsetLeft;
-  const y = e.clientY - canvas.offsetTop;
-
-
-  STACKED_BAR_CHART_DATA.map((bar, i) => {
-    const segments = [...bars[i].children];
-    const coordinates = bar.stackedCoordinates;
-
-    segments.map((segment, i) => {
-      const {
-        elemId,
-        x_start,
-        x_end,
-        y_start,
-        y_end,
-      } = coordinates[i];
-      const activeBar = document.activeElement === 'body' ? undefined : document.getElementById(elemId);
-
-      if ((x >= x_start && x <= x_end) && (y >= y_start && y <= y_end)) {
-        // Find the current segment with tabindex and remove it
-        const currentTabIndex = document.querySelector('canvas [tabindex="0"]');
-        if (currentTabIndex) currentTabIndex.removeAttribute('tabindex');
-
-        activeBar.setAttribute('tabindex', '0');
-        activeBar.focus();
-      }
     });
   });
 }

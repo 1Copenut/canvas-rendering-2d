@@ -1,4 +1,4 @@
-function handleClick(e, barsArr, barData) {
+function handleBarChartClick(e, barsArr, barData) {
   // Calculate click coordinates
   const x = e.clientX - canvas.offsetLeft;
   const y = e.clientY - canvas.offsetTop;
@@ -18,4 +18,4 @@ function handleClick(e, barsArr, barData) {
   });
 }
 
-export default handleClick;
+export default handleBarChartClick;

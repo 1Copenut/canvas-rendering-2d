@@ -2,7 +2,7 @@ import { BAR_CHART_CLASS, BAR_CHART_HEIGHT } from "../../lib/constants/index.js"
 import { BAR_CHART_DATA } from "./data.js";
 
 import handleArrowKeys from "../../lib/helpers/keyboard/handleArrowKeys.mjs";
-import handleClick from "../../lib/helpers/mouse/handleClick.mjs";
+import handleBarChartClick from "../../lib/helpers/mouse/handleBarChartClick.mjs";
 
 const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];
 const canvas = document.getElementById('canvas');
@@ -11,7 +11,7 @@ const ctx = canvas.getContext('2d');
 // Add event listeners
 document.addEventListener('focus', initBarChart, true);
 document.addEventListener('blur', initBarChart, true);
-canvas.addEventListener('click', e => handleClick(e, bars, BAR_CHART_DATA), false);
+canvas.addEventListener('click', e => handleBarChartClick(e, bars, BAR_CHART_DATA), false);
 canvas.addEventListener('keydown', e => handleArrowKeys(e, bars), false);
 
 function initBarChart() {
