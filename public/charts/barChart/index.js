@@ -1,3 +1,3 @@
-import initBarChart from '../../../js/modules/barCharts/barChart.mjs';
+import initBarChart from './barChart.mjs';
 
 initBarChart();

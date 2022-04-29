@@ -1,8 +1,8 @@
-import { BAR_CHART_CLASS, BAR_CHART_HEIGHT } from "../../constants/index.js";
-import { BAR_CHART_DATA } from "../../data/barChartData.js";
+import { BAR_CHART_CLASS, BAR_CHART_HEIGHT } from "../../js/constants/index.js";
+import { BAR_CHART_DATA } from "./data.js";
 
-import handleArrowKeys from "../../helpers/keyboard/handleArrowKeys.mjs";
-import handleClick from "../../helpers/mouse/handleClick.mjs";
+import handleArrowKeys from "../../js/helpers/keyboard/handleArrowKeys.mjs";
+import handleClick from "../../js/helpers/mouse/handleClick.mjs";
 
 const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];
 const canvas = document.getElementById('canvas');
