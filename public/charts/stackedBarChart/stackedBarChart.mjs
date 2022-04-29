@@ -1,7 +1,7 @@
-import { BAR_CHART_CLASS, BAR_CHART_HEIGHT } from "../../js/constants/index.js";
+import { BAR_CHART_CLASS, BAR_CHART_HEIGHT } from "../../lib/constants/index.js";
 import { STACKED_BAR_CHART_DATA } from "./data.js";
 
-import handleArrowKeys from "../../js/helpers/keyboard/handleArrowKeys.mjs";
+import handleArrowKeys from "../../lib/helpers/keyboard/handleArrowKeys.mjs";
 
 const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];
 const canvas = document.getElementById('canvas');
@@ -45,11 +45,10 @@ function handleClick(e) {
         x_end,
         y_start,
         y_end,
-        y_offset
       } = coordinates[i];
       const activeBar = document.activeElement === 'body' ? undefined : document.getElementById(elemId);
 
-      if ((x >= x_start && x <= x_end) && (y >= y_start + y_offset && y <= y_end + y_offset)) {
+      if ((x >= x_start && x <= x_end) && (y >= y_start && y <= y_end)) {
         activeBar.setAttribute('tabindex', '0');
         activeBar.focus();
       }
