@@ -4,12 +4,14 @@ function handleClick(e, barsArr, barData) {
   const y = e.clientY - canvas.offsetTop;
 
   barData.map((bar, i) => {
-    barsArr[i].removeAttribute('tabindex');
-
     if (
       (x >= bar.x_start && x <= bar.x_end) &&
       (y >= bar.y_start && y <= bar.y_end)
     ) {
+      // Find the current segment with tabindex and remove it
+      const currentTabIndex = document.querySelector('canvas [tabindex="0"]');
+      if (currentTabIndex) currentTabIndex.removeAttribute('tabindex');
+
       barsArr[i].setAttribute('tabindex', '0');
       barsArr[i].focus();
     }

@@ -29,10 +29,7 @@ function handleClick(e) {
   // Calculate click coordinates
   const x = e.clientX - canvas.offsetLeft;
   const y = e.clientY - canvas.offsetTop;
-  
-  // Find the current segment with tabindex and remove it
-  const currentTabIndex = document.querySelector('span[tabindex="0"]');
-  if (currentTabIndex) currentTabIndex.removeAttribute('tabindex');
+
 
   STACKED_BAR_CHART_DATA.map((bar, i) => {
     const segments = [...bars[i].children];
@@ -49,6 +46,10 @@ function handleClick(e) {
       const activeBar = document.activeElement === 'body' ? undefined : document.getElementById(elemId);
 
       if ((x >= x_start && x <= x_end) && (y >= y_start && y <= y_end)) {
+        // Find the current segment with tabindex and remove it
+        const currentTabIndex = document.querySelector('canvas [tabindex="0"]');
+        if (currentTabIndex) currentTabIndex.removeAttribute('tabindex');
+
         activeBar.setAttribute('tabindex', '0');
         activeBar.focus();
       }
