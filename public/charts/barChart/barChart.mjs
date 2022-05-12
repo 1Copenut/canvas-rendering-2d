@@ -1,7 +1,7 @@
 import { BAR_CHART_CLASS, BAR_CHART_HEIGHT } from "../../lib/constants/index.js";
 import { BAR_CHART_DATA } from "./data.js";
 
-import handleArrowKeys from "../../lib/helpers/keyboard/handleArrowKeys.mjs";
+import handleBarChartArrowKeys from "../../lib/helpers/keyboard/handleBarChartArrowKeys.mjs";
 import handleBarChartClick from "../../lib/helpers/mouse/handleBarChartClick.mjs";
 
 const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];
@@ -12,7 +12,7 @@ const ctx = canvas.getContext('2d');
 document.addEventListener('focus', initBarChart, true);
 document.addEventListener('blur', initBarChart, true);
 canvas.addEventListener('click', e => handleBarChartClick(e, bars, BAR_CHART_DATA), false);
-canvas.addEventListener('keydown', e => handleArrowKeys(e, bars), false);
+canvas.addEventListener('keydown', e => handleBarChartArrowKeys(e, bars), false);
 
 function initBarChart() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -27,6 +27,7 @@ function initBarChart() {
 
 function drawBar(el, x_start, y_start, x_end, y_end) {
   const active = document.activeElement === el;
+  const height = BAR_CHART_HEIGHT;
 
   // Button background
   ctx.fillStyle = active ? 'rebeccapurple' : 'lightgray';

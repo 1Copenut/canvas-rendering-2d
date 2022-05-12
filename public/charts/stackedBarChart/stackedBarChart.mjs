@@ -2,7 +2,7 @@ import { BAR_CHART_CLASS, BAR_CHART_HEIGHT } from "../../lib/constants/index.js"
 import { STACKED_BAR_CHART_DATA } from "./data.js";
 
 import handleStackedBarChartClick from "../../lib/helpers/mouse/handleStackedBarChartClick.mjs";
-import handleArrowKeys from "../../lib/helpers/keyboard/handleArrowKeys.mjs";
+import handleStackedBarArrowKeys from "../../lib/helpers/keyboard/handleStackedBarArrowKeys.mjs";
 
 const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];
 const canvas = document.getElementById('canvas');
@@ -12,7 +12,7 @@ const ctx = canvas.getContext('2d');
 document.addEventListener('focus', initBarChart, true);
 document.addEventListener('blur', initBarChart, true);
 canvas.addEventListener('click', e => handleStackedBarChartClick(e, bars, STACKED_BAR_CHART_DATA), false);
-// canvas.addEventListener('keydown', e => handleArrowKeys(e, bars), false);
+canvas.addEventListener('keydown', e => handleStackedBarArrowKeys(e, bars), false);
 
 function initBarChart() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -28,6 +28,7 @@ function initBarChart() {
 
 function drawStackedBar(el, stackedCoordinates) {
   const active = document.activeElement === el;
+  const height = BAR_CHART_HEIGHT;
 
   const {
     elemId,

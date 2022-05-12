@@ -1,6 +1,6 @@
 let selectedBar = 0;
 
-function handleArrowKeys(e, barsArr, context) {
+function handleBarChartArrowKeys(e, barsArr, context) {
   switch(e.key) {
     case 'ArrowUp':
     case 'ArrowLeft': {
@@ -40,4 +40,4 @@ function handleArrowKeys(e, barsArr, context) {
   }
 }
 
-export default handleArrowKeys;
+export default handleBarChartArrowKeys;
