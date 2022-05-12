@@ -27,11 +27,15 @@ function initBarChart() {
 
 function drawBar(el, x_start, y_start, x_end, y_end) {
   const active = document.activeElement === el;
-  const height = BAR_CHART_HEIGHT;
 
   // Button background
   ctx.fillStyle = active ? 'rebeccapurple' : 'lightgray';
-  ctx.fillRect(x_start, y_start, x_end, height);
+  ctx.fillRect(
+    x_start,
+    y_start,
+    x_end - x_start,
+    y_end - y_start
+  );
 
   // Button text
   ctx.font = '16px Helvetica, Arial, sans-serif';
@@ -42,7 +46,12 @@ function drawBar(el, x_start, y_start, x_end, y_end) {
 
   // Define clickable area
   ctx.beginPath();
-  ctx.rect(x_start, y_start, x_end, height);
+  ctx.rect(
+    x_start,
+    y_start,
+    x_end - x_start,
+    y_end - y_start
+  );
 
   // Draw focus ring, if appropriate
   ctx.drawFocusIfNeeded(el);

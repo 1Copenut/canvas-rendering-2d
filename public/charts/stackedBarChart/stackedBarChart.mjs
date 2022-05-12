@@ -28,7 +28,6 @@ function initBarChart() {
 
 function drawStackedBar(el, stackedCoordinates) {
   const active = document.activeElement === el;
-  const height = BAR_CHART_HEIGHT;
 
   const {
     elemId,
@@ -64,7 +63,7 @@ function drawStackedBar(el, stackedCoordinates) {
     x_start,
     y_start,
     x_end - x_start,
-    height
+    y_end - y_start
   );
 
   // Draw focus ring, if appropriate
