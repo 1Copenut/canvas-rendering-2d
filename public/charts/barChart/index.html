@@ -6,6 +6,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Single Bar Chart</title>
   <link rel="stylesheet" href="../../css/main.css">
+  <script>
+    fetch('./data.json')
+      .then(response => response.json())
+      .then(data => {
+        const segments = data.segmentData;
+        const chartFragment = document.createDocumentFragment();
+
+        segments.map((segment, i) => {
+          const { elemId, name, votes } = segment;
+
+          const containerElem = document.createElement('div');
+          const containerText = document.createTextNode(name);
+
+          const helperElem = document.createElement('span');
+          const helperText = document.createTextNode(`${votes} votes`);
+
+          containerElem.append(containerText);
+          containerElem.classList.add('bar-chart');
+          containerElem.setAttribute('id', elemId);
+          containerElem.setAttribute('tabindex', i === 0 ? "0" : "-1");
+
+          helperElem.append(helperText);
+          helperElem.classList.add('sr-only');
+
+          containerElem.append(helperElem);
+          chartFragment.append(containerElem);
+        });
+
+        document.getElementById('canvas').append(chartFragment);
+      });
+  </script>
 </head>
 <body>
   <main>
@@ -14,12 +45,7 @@
 
     <div>
       <span class="sr-only" id="canvas-title">Your favorite pizza toppings</span>
-      <canvas aria-labelledby="canvas-title" id="canvas" height="400" width="500" role="figure" tabindex="0">
-        <div id="button1" class="bar-chart" tabindex="0">Olives</div>
-        <div id="button2" class="bar-chart" tabindex="-1">Pineapple</div>
-        <div id="button3" class="bar-chart" tabindex="-1">Pepperoni</div>
-        <div id="button4" class="bar-chart" tabindex="-1">Anchovies</div>
-      </canvas>
+      <canvas aria-labelledby="canvas-title" id="canvas" height="400" width="500" role="figure" tabindex="0"></canvas>
     </div>
   </main>
   <script src="index.js" type="module"></script>
