@@ -1,4 +1,4 @@
-let selectedSegment = 0;
+let selectedSegmentIndex = 0;
 
 function handleStackedBarArrowKeys(e, barsArr) {
   const segmentsArr = barsArr.map((segment, i) => [...barsArr[i].children]);
@@ -7,32 +7,32 @@ function handleStackedBarArrowKeys(e, barsArr) {
   switch(e.key) {
     case 'ArrowUp':
     case 'ArrowLeft': {
-      segments[selectedSegment].removeAttribute('tabindex');
+      segments[selectedSegmentIndex].removeAttribute('tabindex');
 
-      if (selectedSegment === 0) {
-        selectedSegment = segments.length - 1;
-        segments[selectedSegment].setAttribute('tabindex', '0');
-        segments[selectedSegment].focus();
+      if (selectedSegmentIndex === 0) {
+        selectedSegmentIndex = segments.length - 1;
+        segments[selectedSegmentIndex].setAttribute('tabindex', '0');
+        segments[selectedSegmentIndex].focus();
       } else {
-        selectedSegment = selectedSegment - 1;
-        segments[selectedSegment].setAttribute('tabindex', '0');
-        segments[selectedSegment].focus();
+        selectedSegmentIndex = selectedSegmentIndex - 1;
+        segments[selectedSegmentIndex].setAttribute('tabindex', '0');
+        segments[selectedSegmentIndex].focus();
       }
       break;
     }
 
     case 'ArrowDown':
     case 'ArrowRight': {
-      segments[selectedSegment].removeAttribute('tabindex');
+      segments[selectedSegmentIndex].removeAttribute('tabindex');
 
-      if (selectedSegment === segments.length - 1) {
-        selectedSegment = 0;
-        segments[selectedSegment].setAttribute('tabindex', '0');
-        segments[selectedSegment].focus();
+      if (selectedSegmentIndex === segments.length - 1) {
+        selectedSegmentIndex = 0;
+        segments[selectedSegmentIndex].setAttribute('tabindex', '0');
+        segments[selectedSegmentIndex].focus();
       } else {
-        selectedSegment = selectedSegment + 1;
-        segments[selectedSegment].setAttribute('tabindex', '0');
-        segments[selectedSegment].focus();
+        selectedSegmentIndex = selectedSegmentIndex + 1;
+        segments[selectedSegmentIndex].setAttribute('tabindex', '0');
+        segments[selectedSegmentIndex].focus();
       }
       break;
     }

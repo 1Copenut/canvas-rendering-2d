@@ -1,35 +1,35 @@
-let selectedBar = 0;
+let selectedBarIndex = 0;
 
-function handleBarChartArrowKeys(e, barsArr, context) {
+function handleBarChartArrowKeys(e, barsArr) {
   switch(e.key) {
     case 'ArrowUp':
     case 'ArrowLeft': {
-      barsArr[selectedBar].removeAttribute('tabindex');
+      barsArr[selectedBarIndex].removeAttribute('tabindex');
 
-      if (selectedBar === 0) {
-        selectedBar = barsArr.length - 1;
-        barsArr[selectedBar].setAttribute('tabindex', '0');
-        barsArr[selectedBar].focus();
+      if (selectedBarIndex === 0) {
+        selectedBarIndex = barsArr.length - 1;
+        barsArr[selectedBarIndex].setAttribute('tabindex', '0');
+        barsArr[selectedBarIndex].focus();
       } else {
-        selectedBar = selectedBar - 1;
-        barsArr[selectedBar].setAttribute('tabindex', '0');
-        barsArr[selectedBar].focus();
+        selectedBarIndex = selectedBarIndex - 1;
+        barsArr[selectedBarIndex].setAttribute('tabindex', '0');
+        barsArr[selectedBarIndex].focus();
       }
       break;
     }
 
     case 'ArrowDown':
     case 'ArrowRight': {
-      barsArr[selectedBar].removeAttribute('tabindex');
+      barsArr[selectedBarIndex].removeAttribute('tabindex');
 
-      if (selectedBar === barsArr.length - 1) {
-        selectedBar = 0;
-        barsArr[selectedBar].setAttribute('tabindex', '0');
-        barsArr[selectedBar].focus();
+      if (selectedBarIndex === barsArr.length - 1) {
+        selectedBarIndex = 0;
+        barsArr[selectedBarIndex].setAttribute('tabindex', '0');
+        barsArr[selectedBarIndex].focus();
       } else {
-        selectedBar = selectedBar + 1;
-        barsArr[selectedBar].setAttribute('tabindex', '0');
-        barsArr[selectedBar].focus();
+        selectedBarIndex = selectedBarIndex + 1;
+        barsArr[selectedBarIndex].setAttribute('tabindex', '0');
+        barsArr[selectedBarIndex].focus();
       }
       break;
     }
