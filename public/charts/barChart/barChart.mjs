@@ -11,18 +11,21 @@ const ctx = canvas.getContext('2d');
 // Add event listeners
 document.addEventListener('focus', initBarChart, true);
 document.addEventListener('blur', initBarChart, true);
-canvas.addEventListener('click', e => handleBarChartClick(e, bars, BAR_CHART_DATA), false);
+canvas.addEventListener('click', e => handleBarChartClick(e, bars, BAR_CHART_DATA.coordinates), false);
 canvas.addEventListener('keydown', e => handleBarChartArrowKeys(e, bars), false);
 
-function initBarChart() {
+function initBarChart(labelText) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  BAR_CHART_DATA.map((bar, i) => drawBar(
+  BAR_CHART_DATA.coordinates.map((bar, i) => drawBar(
     bars[i],
     bar.x_start,
     bar.y_start,
     bar.x_end,
     bar.y_end
   ));
+
+  // Draw the chart label
+  drawChartLabel(BAR_CHART_DATA.chartLabel)
 }
 
 function drawBar(el, x_start, y_start, x_end, y_end) {
@@ -56,6 +59,16 @@ function drawBar(el, x_start, y_start, x_end, y_end) {
 
   // Draw focus ring, if appropriate
   ctx.drawFocusIfNeeded(el);
+}
+
+function drawChartLabel(labelText) {
+  console.log('Called drawChartLabel');
+  console.log(labelText);
+
+  ctx.font = '16px bold Helvetica, Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'black';
+  ctx.fillText(labelText, 250, 475, 500);
 }
 
 export default initBarChart;
