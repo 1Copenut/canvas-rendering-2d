@@ -5,7 +5,6 @@ function handleBarChartArrowKeys(e, barsArr) {
     case 'ArrowUp':
     case 'ArrowLeft': {
       barsArr[selectedBarIndex].setAttribute('tabindex', '-1');
-      barsArr[selectedBarIndex].removeAttribute('aria-current');
 
       if (selectedBarIndex === 0) {
         selectedBarIndex = barsArr.length - 1;
@@ -13,7 +12,6 @@ function handleBarChartArrowKeys(e, barsArr) {
         selectedBarIndex = selectedBarIndex - 1;
       }
 
-      barsArr[selectedBarIndex].setAttribute('aria-current', 'true');
       barsArr[selectedBarIndex].setAttribute('tabindex', '0');
       barsArr[selectedBarIndex].focus();
       break;
@@ -22,7 +20,6 @@ function handleBarChartArrowKeys(e, barsArr) {
     case 'ArrowDown':
     case 'ArrowRight': {
       barsArr[selectedBarIndex].setAttribute('tabindex', '-1');
-      barsArr[selectedBarIndex].removeAttribute('aria-current');
 
       if (selectedBarIndex === barsArr.length - 1) {
         selectedBarIndex = 0;
@@ -30,7 +27,6 @@ function handleBarChartArrowKeys(e, barsArr) {
         selectedBarIndex = selectedBarIndex + 1;
       }
 
-      barsArr[selectedBarIndex].setAttribute('aria-checked', 'true');
       barsArr[selectedBarIndex].setAttribute('tabindex', '0');
       barsArr[selectedBarIndex].focus();
       break;
