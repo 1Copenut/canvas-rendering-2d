@@ -17,18 +17,19 @@ canvas.addEventListener('keydown', e => handleBarChartArrowKeys(e, bars), false)
 function initBarChart(labelText) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   BAR_CHART_DATA.coordinates.map((bar, i) => drawBar(
-    bars[i],
+    bar.name,
     bar.x_start,
     bar.y_start,
     bar.x_end,
-    bar.y_end
+    bar.y_end,
+    bars[i],
   ));
 
   // Draw the chart label
   drawChartLabel(BAR_CHART_DATA.chartLabel)
 }
 
-function drawBar(el, x_start, y_start, x_end, y_end) {
+function drawBar(name, x_start, y_start, x_end, y_end, el) {
   const active = document.activeElement === el;
   const height = BAR_CHART_HEIGHT;
 
@@ -46,7 +47,7 @@ function drawBar(el, x_start, y_start, x_end, y_end) {
   ctx.textAlign = 'left';
   ctx.textBaseline = 'middle';
   ctx.fillStyle = active ? 'white' : 'black';
-  ctx.fillText(el.textContent, x_start + 15, y_start + height / 2);
+  ctx.fillText(name, x_start + 15, y_start + height / 2);
 
   // Define clickable area
   ctx.beginPath();
@@ -62,9 +63,6 @@ function drawBar(el, x_start, y_start, x_end, y_end) {
 }
 
 function drawChartLabel(labelText) {
-  console.log('Called drawChartLabel');
-  console.log(labelText);
-
   ctx.font = '16px bold Helvetica, Arial, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillStyle = 'black';

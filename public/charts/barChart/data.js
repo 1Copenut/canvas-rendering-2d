@@ -3,6 +3,7 @@ export const BAR_CHART_DATA = {
   coordinates: [
     {
       elemId: 'button1',
+      name: 'Olives',
       x_start: 20,
       y_start: 20,
       x_end: 220,
@@ -10,6 +11,7 @@ export const BAR_CHART_DATA = {
     },
     {
       elemId: 'button2',
+      name: 'Pineapple',
       x_start: 20,
       y_start: 80,
       x_end: 150,
@@ -17,6 +19,7 @@ export const BAR_CHART_DATA = {
     },
     {
       elemId: 'button3',
+      name: 'Anchovies',
       x_start: 20,
       y_start: 140,
       x_end: 130,
