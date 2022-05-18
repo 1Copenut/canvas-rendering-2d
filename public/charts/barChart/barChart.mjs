@@ -3,6 +3,8 @@ import { BAR_CHART_DATA } from "./data.js";
 
 import handleBarChartArrowKeys from "../../lib/helpers/keyboard/handleBarChartArrowKeys.mjs";
 import handleBarChartClick from "../../lib/helpers/mouse/handleBarChartClick.mjs";
+import drawLabel from "../../lib/helpers/drawing/drawLabel.mjs";
+import drawLegend from "../../lib/helpers/drawing/drawLegend.mjs";
 
 const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];
 const canvas = document.getElementById('canvas');
@@ -14,7 +16,7 @@ document.addEventListener('blur', initBarChart, true);
 canvas.addEventListener('click', e => handleBarChartClick(e, bars, BAR_CHART_DATA.coordinates), false);
 canvas.addEventListener('keydown', e => handleBarChartArrowKeys(e, bars), false);
 
-function initBarChart(labelText) {
+function initBarChart() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   BAR_CHART_DATA.coordinates.map((bar, i) => drawBar(
     bar.name,
@@ -26,7 +28,10 @@ function initBarChart(labelText) {
   ));
 
   // Draw the chart label
-  drawChartLabel(BAR_CHART_DATA.chartLabel)
+  drawLabel(ctx, canvas, BAR_CHART_DATA.chartLabel);
+
+  // Draw the legend
+  drawLegend(ctx, canvas, BAR_CHART_DATA.minValue, BAR_CHART_DATA.maxValue);
 }
 
 function drawBar(name, x_start, y_start, x_end, y_end, el) {
@@ -62,11 +67,32 @@ function drawBar(name, x_start, y_start, x_end, y_end, el) {
   ctx.drawFocusIfNeeded(el);
 }
 
-function drawChartLabel(labelText) {
-  ctx.font = '16px bold Helvetica, Arial, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = 'black';
-  ctx.fillText(labelText, 250, 475, 500);
-}
+// function drawLegend(minVal, maxVal) {
+//   const normalizedMinVal = Math.ceil(minVal / 10) * -10;
+//   const normalizedMaxVal = Math.ceil(maxVal / 10) * 10;
+//   const normalizedMedian = Math.round(normalizedMaxVal - normalizedMinVal) / 2;
+
+//   ctx.font = '15px Helvetica, Arial, sans-serif';
+//   ctx.fillStyle = 'black';
+
+//   if (maxVal - minVal <= 50) {
+//     ctx.textAlign = 'left';
+//     ctx.fillText(normalizedMinVal, 22, canvas.height - 40);
+    
+//     ctx.textAlign = 'center';
+//     ctx.fillText(normalizedMedian, canvas.width / 2, canvas.height - 40);
+    
+//     ctx.textAlign = 'right';
+//     ctx.fillText(normalizedMaxVal, canvas.width - 22, canvas.height - 40);
+
+//     ctx.fillStyle = 'black';
+//     ctx.fillRect(
+//       20,
+//       canvas.height - 60,
+//       canvas.width - 40,
+//       2
+//     );
+//   }
+// }
 
 export default initBarChart;
