@@ -1,6 +1,6 @@
 import { BAR_CHART_CLASS } from "../../../lib/constants/index.js";
 
-function handleBarChartClick(e, barData) {
+function handleBarChartClick(e, canvas, barData) {
   const barsArr = [...document.getElementsByClassName(BAR_CHART_CLASS)];
 
   // Calculate click coordinates
@@ -14,7 +14,7 @@ function handleBarChartClick(e, barData) {
     ) {
       // Find the current segment with tabindex and remove it
       const currentTabIndex = document.querySelector('canvas [tabindex="0"]');
-      if (currentTabIndex) currentTabIndex.removeAttribute('tabindex');
+      if (currentTabIndex) currentTabIndex.setAttribute('tabindex', '-1');
 
       barsArr[i].setAttribute('tabindex', '0');
       barsArr[i].focus();

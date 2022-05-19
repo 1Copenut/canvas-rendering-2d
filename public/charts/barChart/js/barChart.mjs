@@ -1,22 +1,25 @@
-import { BAR_CHART_CLASS, BAR_CHART_HEIGHT } from "../../../lib/constants/index.js";
-
+import {
+  BAR_CHART_CANVAS,
+  BAR_CHART_CLASS,
+  BAR_CHART_HEIGHT
+} from "../../../lib/constants/index.js";
 import drawLabel from "../../../lib/helpers/drawing/drawLabel.mjs";
 import drawLegend from "../../../lib/helpers/drawing/drawLegend.mjs";
-import fetchData from "../../../lib/helpers/data/fetchData.mjs";
 import handleBarChartArrowKeys from "../../../lib/helpers/keyboard/handleBarChartArrowKeys.mjs";
 import handleBarChartClick from "../../../lib/helpers/mouse/handleBarChartClick.mjs";
 
-const data = await fetchData('js/data/data.json');
-
-const canvas = document.getElementById('canvas');
+// Grab the empty canvas ID from index.html
+const canvas = document.getElementById(BAR_CHART_CANVAS);
 const ctx = canvas.getContext('2d');
 
-// Add event listeners
-document.addEventListener('focus', () => drawBarChart(data), true);
-document.addEventListener('blur', () => drawBarChart(data), true);
-canvas.addEventListener('click', e => handleBarChartClick(e, data.barData), false);
-canvas.addEventListener('keydown', e => handleBarChartArrowKeys(e), false);
-
+/**
+ * Uses the fetched data object to construct DIVS that will become bars.
+ * Constructs SPANs that will hold helper text for screen readers.
+ * Appends DIVs to a document fragment, then appends the fragment
+ * to the empty canvas element in index.html.
+ * 
+ * @param {Object} dataObj 
+ */
 function buildBarChartHtml(dataObj) {
   const bars = dataObj.barData;
   const chartFragment = document.createDocumentFragment();
@@ -42,9 +45,19 @@ function buildBarChartHtml(dataObj) {
     chartFragment.append(containerElem);
   });
 
-  document.getElementById('canvas').append(chartFragment);
+  canvas.append(chartFragment);
 }
 
+/**
+ * Draws a single bar. Draws text label and defines focusable rectangle.
+ * 
+ * @param {String} name Data label drawn on the bar
+ * @param {Number} x_start Beginning horizontal coordinate to render bar
+ * @param {Number} y_start Beginning vertical coordinate to render bar
+ * @param {Number} x_end Ending horizontal coordinate to render bar
+ * @param {Number} y_end Ending vertical coordinate to render bar
+ * @param {HTMLDivElement} el DIV elements that user can interact with
+ */
 function drawBar(name, x_start, y_start, x_end, y_end, el) {
   const active = document.activeElement === el;
   const height = BAR_CHART_HEIGHT;
@@ -78,6 +91,11 @@ function drawBar(name, x_start, y_start, x_end, y_end, el) {
   ctx.drawFocusIfNeeded(el);
 }
 
+/**
+ * Loops over data object to draw bars, chart label, and chart legend
+ * 
+ * @param {Object} dataObj 
+ */
 function drawBarChart(dataObj) {
   const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];
 
@@ -99,9 +117,18 @@ function drawBarChart(dataObj) {
   drawLegend(ctx, canvas, dataObj.minValue, dataObj.maxValue);
 }
 
-function initBarChart() {
-  buildBarChartHtml(data);
-  drawBarChart(data);
+/**
+ * Draws bar chart in a canvas element with the relevant ID
+ */
+function initBarChart(userDataObj) {
+  // Add event listeners
+  document.addEventListener('focus', () => drawBarChart(userDataObj), true);
+  document.addEventListener('blur', () => drawBarChart(userDataObj), true);
+  canvas.addEventListener('click', e => handleBarChartClick(e, canvas, userDataObj.barData), false);
+  canvas.addEventListener('keydown', e => handleBarChartArrowKeys(e), false);
+
+  buildBarChartHtml(userDataObj);
+  drawBarChart(userDataObj);
 }
 
 export default initBarChart;
