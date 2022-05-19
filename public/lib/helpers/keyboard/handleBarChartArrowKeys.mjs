@@ -1,6 +1,10 @@
+import { BAR_CHART_CLASS } from "../../../lib/constants/index.js";
+
 let selectedBarIndex = 0;
 
-function handleBarChartArrowKeys(e, barsArr) {
+function handleBarChartArrowKeys(e) {
+  const barsArr = [...document.getElementsByClassName(BAR_CHART_CLASS)];
+
   switch(e.key) {
     case 'ArrowUp':
     case 'ArrowLeft': {

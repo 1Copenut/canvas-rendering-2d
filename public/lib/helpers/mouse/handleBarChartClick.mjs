@@ -1,4 +1,8 @@
-function handleBarChartClick(e, barsArr, barData) {
+import { BAR_CHART_CLASS } from "../../../lib/constants/index.js";
+
+function handleBarChartClick(e, barData) {
+  const barsArr = [...document.getElementsByClassName(BAR_CHART_CLASS)];
+
   // Calculate click coordinates
   const x = e.clientX - canvas.offsetLeft;
   const y = e.clientY - canvas.offsetTop;
