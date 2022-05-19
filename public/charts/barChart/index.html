@@ -6,10 +6,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Single Bar Chart</title>
   <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body>
+  <main>
+    <h1>Single Bar Chart</h1>
+    <p>Single bars only. Each bar represents one discrete value.</p>
+
+    <div>
+      <span class="sr-only" id="canvas-title">Your favorite pizza toppings</span>
+      <canvas aria-labelledby="canvas-title" id="canvas" height="400" width="500" role="figure" tabindex="0"></canvas>
+    </div>
+  </main>
   <script>
-    fetch('./data.json')
-      .then(response => response.json())
-      .then(data => {
+    // fetch('./data.json')
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     const segments = data.segmentData;
+    //     const chartFragment = document.createDocumentFragment();
+
+    //     segments.map((segment, i) => {
+    //       const { elemId, name, votes } = segment;
+
+    //       const containerElem = document.createElement('div');
+    //       const containerText = document.createTextNode(name);
+
+    //       const helperElem = document.createElement('span');
+    //       const helperText = document.createTextNode(`${votes} votes`);
+
+    //       containerElem.append(containerText);
+    //       containerElem.classList.add('bar-chart');
+    //       containerElem.setAttribute('id', elemId);
+    //       containerElem.setAttribute('tabindex', i === 0 ? "0" : "-1");
+
+    //       helperElem.append(helperText);
+    //       helperElem.classList.add('sr-only');
+
+    //       containerElem.append(helperElem);
+    //       chartFragment.append(containerElem);
+    //     });
+
+    //     document.getElementById('canvas').append(chartFragment);
+    //   });
+
+      async function getBarChartData(dataUrl, canvasId) {
+        const data = await fetch(dataUrl);
+        const response = await data.json();
+        return response;
+      }
+
+      getBarChartData('./data.json', 'canvas').then(data => {
         const segments = data.segmentData;
         const chartFragment = document.createDocumentFragment();
 
@@ -37,17 +82,6 @@
         document.getElementById('canvas').append(chartFragment);
       });
   </script>
-</head>
-<body>
-  <main>
-    <h1>Single Bar Chart</h1>
-    <p>Single bars only. Each bar represents one discrete value.</p>
-
-    <div>
-      <span class="sr-only" id="canvas-title">Your favorite pizza toppings</span>
-      <canvas aria-labelledby="canvas-title" id="canvas" height="400" width="500" role="figure" tabindex="0"></canvas>
-    </div>
-  </main>
   <script src="index.js" type="module"></script>
 </body>
 </html>
