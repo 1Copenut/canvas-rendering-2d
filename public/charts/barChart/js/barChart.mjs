@@ -8,9 +8,9 @@ import drawLegend from "../../../lib/helpers/drawing/drawLegend.mjs";
 import handleBarChartArrowKeys from "../../../lib/helpers/keyboard/handleBarChartArrowKeys.mjs";
 import handleBarChartClick from "../../../lib/helpers/mouse/handleBarChartClick.mjs";
 
-// Grab the empty canvas ID from index.html
-const canvas = document.getElementById(BAR_CHART_CANVAS);
-const ctx = canvas.getContext('2d');
+// // Grab the empty canvas ID from index.html
+// const canvas = document.getElementById(BAR_CHART_CANVAS);
+// const ctx = canvas.getContext('2d');
 
 /**
  * Uses the fetched data object to construct DIVS that will become bars.
@@ -20,7 +20,7 @@ const ctx = canvas.getContext('2d');
  * 
  * @param {Object} dataObj 
  */
-function buildBarChartHtml(dataObj) {
+function buildBarChartHtml(dataObj, canvas) {
   const bars = dataObj.barData;
   const chartFragment = document.createDocumentFragment();
 
@@ -58,7 +58,7 @@ function buildBarChartHtml(dataObj) {
  * @param {Number} y_end Ending vertical coordinate to render bar
  * @param {HTMLDivElement} el DIV elements that user can interact with
  */
-function drawBar(name, x_start, y_start, x_end, y_end, el) {
+function drawBar(name, x_start, y_start, x_end, y_end, el, ctx) {
   const active = document.activeElement === el;
   const height = BAR_CHART_HEIGHT;
 
@@ -96,8 +96,8 @@ function drawBar(name, x_start, y_start, x_end, y_end, el) {
  * 
  * @param {Object} dataObj 
  */
-function drawBarChart(dataObj) {
-  const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];
+function drawBarChart(dataObj, canvas, ctx) {
+  const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];  
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -108,6 +108,7 @@ function drawBarChart(dataObj) {
     bar.x_end,
     bar.y_end,
     bars[i],
+    ctx
   ));
 
   // Draw the chart label
@@ -120,15 +121,18 @@ function drawBarChart(dataObj) {
 /**
  * Draws bar chart in a canvas element with the relevant ID
  */
-function initBarChart(userDataObj) {
+function initBarChart(userDataObj, canvasId) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+
   // Add event listeners
-  document.addEventListener('focus', () => drawBarChart(userDataObj), true);
-  document.addEventListener('blur', () => drawBarChart(userDataObj), true);
+  document.addEventListener('focus', () => drawBarChart(userDataObj, canvas, ctx), true);
+  document.addEventListener('blur', () => drawBarChart(userDataObj, canvas, ctx), true);
   canvas.addEventListener('click', e => handleBarChartClick(e, canvas, userDataObj.barData), false);
   canvas.addEventListener('keydown', e => handleBarChartArrowKeys(e), false);
 
-  buildBarChartHtml(userDataObj);
-  drawBarChart(userDataObj);
+  buildBarChartHtml(userDataObj, canvas);
+  drawBarChart(userDataObj, canvas, ctx);
 }
 
 export default initBarChart;
