@@ -8,44 +8,51 @@ import drawXAxis from "../../../lib/helpers/drawing/drawXAxis.mjs";
 import handleBarChartArrowKeys from "../../../lib/helpers/keyboard/handleBarChartArrowKeys.mjs";
 import handleBarChartClick from "../../../lib/helpers/mouse/handleBarChartClick.mjs";
 
-// // Grab the empty canvas ID from index.html
-// const canvas = document.getElementById(BAR_CHART_CANVAS);
-// const ctx = canvas.getContext('2d');
-
 /**
  * Uses the fetched data object to construct DIVS that will become bars.
  * Constructs SPANs that will hold helper text for screen readers.
  * Appends DIVs to a document fragment, then appends the fragment
  * to the empty canvas element in index.html.
  * 
- * @param {Object} dataObj data object fetched asynchronously
- * @param {HTMLElement} canvas the element where the chart will be drawn
+ * @param {Object} dataObj Data object fetched asynchronously
+ * @param {HTMLCanvasElement} canvas The canvas element where the chart will be drawn
  */
 function buildBarChartHtml(dataObj, canvas) {
   const bars = dataObj.barData;
   const chartFragment = document.createDocumentFragment();
 
   bars.map((bar, i) => {
-    const { elemId, name, votes } = bar;
+    let countType = dataObj.countType;
+    const { name, count } = bar;
 
+    // Proper pluralization of count type (IE votes, events, endpoints)
+    if (count !== 1) {
+      countType = `${countType}s`;
+    }
+
+    // Create the bar element and label
     const containerElem = document.createElement('div');
     const containerText = document.createTextNode(name);
 
+    // Create screen reader helper text
     const helperElem = document.createElement('span');
-    const helperText = document.createTextNode(`${votes} votes`);
+    const helperText = document.createTextNode(`${count} ${countType}`);
 
+    // Assemble the bar container and text. Set tabindex for keyboard navigation.
     containerElem.append(containerText);
     containerElem.classList.add('bar-chart');
-    containerElem.setAttribute('id', elemId);
     containerElem.setAttribute('tabindex', i === 0 ? "0" : "-1");
 
+    // Assemble the helper text element
     helperElem.append(helperText);
     helperElem.classList.add('sr-only');
 
+    // Append the completed bar (element, label, screen reader text) to the document fragment
     containerElem.append(helperElem);
     chartFragment.append(containerElem);
   });
 
+  // Append the fragment to the canvas one time. More performant than multiple appends.
   canvas.append(chartFragment);
 }
 
@@ -96,8 +103,8 @@ function drawBar(name, x_start, y_start, x_end, y_end, el, ctx) {
 /**
  * Loops over data object to draw bars, chart label, and chart legend
  * 
- * @param {Object} dataObj data object fetched asynchronously
- * @param {HTMLElement} canvas the element where the chart will be drawn
+ * @param {Object} dataObj Data object fetched asynchronously
+ * @param {HTMLCanvasElement} canvas The canvas element where the chart will be drawn
  * @param {CanvasRenderingContext2D} ctx Canvas draw layer context
  */
 function drawBarChart(dataObj, canvas, ctx) {
@@ -116,16 +123,16 @@ function drawBarChart(dataObj, canvas, ctx) {
   ));
 
   // Draw the chart label
-  drawLabel(ctx, canvas, dataObj.chartLabel);
+  drawLabel(canvas, ctx, dataObj.chartLabel);
 
   // Draw the X-axis and numbers
-  drawXAxis(ctx, canvas, dataObj.minValue, dataObj.maxValue);
+  drawXAxis(canvas, ctx, dataObj.minValue, dataObj.maxValue);
 }
 
 /**
- * Draws bar chart in a canvas element with the relevant ID
+ * Draws bar chart in a canvas element using an upstream data object and ID string
  * 
- * @param {Object} userDataObj data object fetched asynchronously (database, flat file, etc.)
+ * @param {Object} userDataObj Data object fetched asynchronously (database, flat file, etc.)
  * @param {String} canvasId ID string of the empty canvas object
  */
 function initBarChart(userDataObj, canvasId) {
