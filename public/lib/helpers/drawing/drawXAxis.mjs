@@ -1,4 +1,4 @@
-function drawLegend(ctx, canvas, minVal, maxVal) {
+function drawXAxis(ctx, canvas, minVal, maxVal) {
   const normalizedMinVal = Math.ceil(minVal / 10) * -10;
   const normalizedMaxVal = Math.ceil(maxVal / 10) * 10;
   const normalizedMedian = Math.round(normalizedMaxVal - normalizedMinVal) / 2;
@@ -26,4 +26,4 @@ function drawLegend(ctx, canvas, minVal, maxVal) {
   }
 }
 
-export default drawLegend;
+export default drawXAxis;

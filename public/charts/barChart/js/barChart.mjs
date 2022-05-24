@@ -4,7 +4,7 @@ import {
   BAR_CHART_HEIGHT
 } from "../../../lib/constants/index.js";
 import drawLabel from "../../../lib/helpers/drawing/drawLabel.mjs";
-import drawLegend from "../../../lib/helpers/drawing/drawLegend.mjs";
+import drawXAxis from "../../../lib/helpers/drawing/drawXAxis.mjs";
 import handleBarChartArrowKeys from "../../../lib/helpers/keyboard/handleBarChartArrowKeys.mjs";
 import handleBarChartClick from "../../../lib/helpers/mouse/handleBarChartClick.mjs";
 
@@ -18,7 +18,8 @@ import handleBarChartClick from "../../../lib/helpers/mouse/handleBarChartClick.
  * Appends DIVs to a document fragment, then appends the fragment
  * to the empty canvas element in index.html.
  * 
- * @param {Object} dataObj 
+ * @param {Object} dataObj data object fetched asynchronously
+ * @param {HTMLElement} canvas the element where the chart will be drawn
  */
 function buildBarChartHtml(dataObj, canvas) {
   const bars = dataObj.barData;
@@ -57,6 +58,7 @@ function buildBarChartHtml(dataObj, canvas) {
  * @param {Number} x_end Ending horizontal coordinate to render bar
  * @param {Number} y_end Ending vertical coordinate to render bar
  * @param {HTMLDivElement} el DIV elements that user can interact with
+ * @param {CanvasRenderingContext2D} ctx Canvas draw layer context
  */
 function drawBar(name, x_start, y_start, x_end, y_end, el, ctx) {
   const active = document.activeElement === el;
@@ -94,7 +96,9 @@ function drawBar(name, x_start, y_start, x_end, y_end, el, ctx) {
 /**
  * Loops over data object to draw bars, chart label, and chart legend
  * 
- * @param {Object} dataObj 
+ * @param {Object} dataObj data object fetched asynchronously
+ * @param {HTMLElement} canvas the element where the chart will be drawn
+ * @param {CanvasRenderingContext2D} ctx Canvas draw layer context
  */
 function drawBarChart(dataObj, canvas, ctx) {
   const bars = [...document.getElementsByClassName(BAR_CHART_CLASS)];  
@@ -114,12 +118,15 @@ function drawBarChart(dataObj, canvas, ctx) {
   // Draw the chart label
   drawLabel(ctx, canvas, dataObj.chartLabel);
 
-  // Draw the legend
-  drawLegend(ctx, canvas, dataObj.minValue, dataObj.maxValue);
+  // Draw the X-axis and numbers
+  drawXAxis(ctx, canvas, dataObj.minValue, dataObj.maxValue);
 }
 
 /**
  * Draws bar chart in a canvas element with the relevant ID
+ * 
+ * @param {Object} userDataObj data object fetched asynchronously (database, flat file, etc.)
+ * @param {String} canvasId ID string of the empty canvas object
  */
 function initBarChart(userDataObj, canvasId) {
   const canvas = document.getElementById(canvasId);
