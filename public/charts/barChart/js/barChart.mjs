@@ -9,10 +9,8 @@ import handleBarChartArrowKeys from "../../../lib/helpers/keyboard/handleBarChar
 import handleBarChartClick from "../../../lib/helpers/mouse/handleBarChartClick.mjs";
 
 /**
- * Uses the fetched data object to construct DIVS that will become bars.
- * Constructs SPANs that will hold helper text for screen readers.
- * Appends DIVs to a document fragment, then appends the fragment
- * to the empty canvas element in index.html.
+ * Uses an outside data object to construct DIVS that will become bars.
+ * Also constructs SPANs that will hold helper text for screen readers.
  * 
  * @param {Object} dataObj Data object fetched asynchronously
  * @param {HTMLCanvasElement} canvas The canvas element where the chart will be drawn
@@ -130,7 +128,7 @@ function drawBarChart(dataObj, canvas, ctx) {
 }
 
 /**
- * Draws bar chart in a canvas element using an upstream data object and ID string
+ * Draws bar chart in a canvas element using an outside data object and ID string
  * 
  * @param {Object} userDataObj Data object fetched asynchronously (database, flat file, etc.)
  * @param {String} canvasId ID string of the empty canvas object
