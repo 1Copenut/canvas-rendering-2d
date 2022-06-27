@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; connect-src 'self'; img-src 'self'; manifest-src 'self'; script-src 'self'; style-src 'self'; object-src 'none';">
   <title>MDN Canvas 2D Experiment</title>
   <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body>
   <main>
     <h1>MDN Canvas 2D Experiment</h1>
 
-    <p>The purpose of this experiment is to learn and extend the MDN <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawFocusIfNeeded">CanvasRenderingContext2D.drawFocusIfNeeded()</a> demo. I am interested in using Canvas as a draw layer for accessible charting, and want to learn how much we can push the envelope in that direction.</p>
+    <p>The purpose of this experiment is to learn and extend the MDN <a
+        href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawFocusIfNeeded">CanvasRenderingContext2D.drawFocusIfNeeded()</a>
+      demo. I am interested in using Canvas as a draw layer for accessible charting, and want to learn how much we can
+      push the envelope in that direction.</p>
 
     <p>Each page will demonstrate a single chart style.</p>
 
     <ul>
       <li>
-        <a href="/charts/barChart">Bar chart</a>
+        <a href="charts/barChart">Bar chart</a>
       </li>
       <li>
-        <a href="/charts/stackedBarChart">Stacked bar chart</a>
+        <a href="charts/stackedBarChart">Stacked bar chart</a>
       </li>
     </ul>
   </main>
 </body>
+
 </html>

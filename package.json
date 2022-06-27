@@ -4,7 +4,8 @@
   "description": "A simple exploration of keyboard navigation in canvas",
   "main": "index.js",
   "scripts": {
-    "start": "http-server ./public -c-1 -d false"
+    "start": "http-server ./public -c-1 -d false",
+    "deploy": "gh-pages -d public"
   },
   "keywords": [
     "canvas",
@@ -15,5 +16,8 @@
   "license": "MIT",
   "dependencies": {
     "http-server": "^14.1.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }
