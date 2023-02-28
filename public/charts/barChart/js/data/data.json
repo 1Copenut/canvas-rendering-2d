@@ -29,12 +29,20 @@
       "y_end": 240
     },
     {
+      "name": "Sausage",
+      "count": 6,
+      "x_start": 20,
+      "y_start": 260,
+      "x_end": 60,
+      "y_end": 300
+    },
+    {
       "name": "Anchovies",
       "count": 1,
       "x_start": 20,
-      "y_start": 260,
+      "y_start": 320,
       "x_end": 30,
-      "y_end": 300
+      "y_end": 360
     }
   ]
 }
