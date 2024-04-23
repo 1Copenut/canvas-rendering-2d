@@ -18,6 +18,6 @@
     "http-server": "^14.1.0"
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0"
+    "gh-pages": "^5.0.0"
   }
 }
